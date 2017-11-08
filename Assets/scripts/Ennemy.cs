@@ -6,7 +6,6 @@ public class Ennemy : MonoBehaviour
 {
     [SerializeField] private GameObject ennemy;
     [SerializeField] private SpriteRenderer ennemy_renderer;
-    [SerializeField] private SpriteRenderer ennemy_touched;
     [SerializeField] private Transform ennemy_transform;
     [SerializeField] private Transform[] gun_transform_list;
     [SerializeField] private GameObject bullet_prefab;
@@ -21,6 +20,9 @@ public class Ennemy : MonoBehaviour
     private Vector3 pos_initial;
     private float time_max = 4.0f;
     private float amp_vibre = 2;
+
+    private float flash_time = 2;
+    private float flash_wait = 0.1f;
 
     // Use this for initialization
     void Start ()
@@ -62,7 +64,6 @@ public class Ennemy : MonoBehaviour
         if (collision.collider.tag == "PlayerAmmo")
         {
             EnnemyTouched();
-
             Destroy(collision.gameObject);
         }
     }
@@ -76,9 +77,31 @@ public class Ennemy : MonoBehaviour
     {
         ennemy_health_point--;
 
-        if(ennemy_health_point <= 0)
+        StartCoroutine(Flash());
+
+        if (ennemy_health_point <= 0)
         {
             EnnemyDie();
+        }
+    }
+
+    private IEnumerator Flash()
+    {
+        Color base_color = ennemy_renderer.color;
+        float start_time = Time.realtimeSinceStartup;
+
+        while (Time.realtimeSinceStartup - start_time < flash_time)
+        {
+            yield return new WaitForSeconds(flash_wait);
+
+            if(ennemy_renderer.color == base_color)
+            {
+                ennemy_renderer.color = Color.white;
+            }
+            else
+            {
+                ennemy_renderer.color = base_color;
+            }
         }
     }
 }

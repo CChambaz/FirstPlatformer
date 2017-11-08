@@ -14,9 +14,4 @@ public class Control : MonoBehaviour
     {
         Application.Quit();
     }
-
-    public void Flash(GameObject character, SpriteRenderer normal_sprite, SpriteRenderer flash_sprite, float duration)
-    {
-        
-    }
 }

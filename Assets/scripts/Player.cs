@@ -40,7 +40,6 @@ public class Player : MonoBehaviour
     [Header("Object Info")]
     [SerializeField] private GameObject hero;
     [SerializeField] private SpriteRenderer hero_renderer;
-    [SerializeField] private SpriteRenderer hero_touched;
     [SerializeField] [TextArea] public string message;
     [SerializeField] private Color test;
 
@@ -127,9 +126,7 @@ public class Player : MonoBehaviour
             PlayerTouched();
 
             Destroy(collision.gameObject);
-        }
-
-        
+        }        
     }
 
     private void Fire()
