@@ -408,6 +408,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ennemy: {fileID: 1672282392474430}
   ennemy_renderer: {fileID: 212690204402132764}
+  ennemy_touched: {fileID: 212601490892525710, guid: 10b1cd93071c9e34db7ccf154bebee60,
+    type: 2}
   ennemy_transform: {fileID: 4890225352188126}
   gun_transform_list:
   - {fileID: 4658737468400310}

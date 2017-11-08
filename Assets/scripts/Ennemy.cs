@@ -6,6 +6,7 @@ public class Ennemy : MonoBehaviour
 {
     [SerializeField] private GameObject ennemy;
     [SerializeField] private SpriteRenderer ennemy_renderer;
+    [SerializeField] private SpriteRenderer ennemy_touched;
     [SerializeField] private Transform ennemy_transform;
     [SerializeField] private Transform[] gun_transform_list;
     [SerializeField] private GameObject bullet_prefab;
@@ -15,16 +16,31 @@ public class Ennemy : MonoBehaviour
     [SerializeField] private float time_to_fire = 2;
     [SerializeField] private float bullet_velocity = 10;
 
+    [SerializeField] AnimationCurve anim_vibre;
+
+    private Vector3 pos_initial;
+    private float time_max = 4.0f;
+    private float amp_vibre = 2;
+
     // Use this for initialization
     void Start ()
     {
         StartCoroutine(Fire());
+
+        pos_initial = transform.position;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
         ennemy_transform.Rotate(Vector3.forward);
+
+        float current_time = Time.timeSinceLevelLoad % time_max;
+        current_time /= time_max - 1;
+        float pos_y = anim_vibre.Evaluate(current_time);
+        pos_y *= amp_vibre;
+        Vector3 new_position = new Vector3(pos_initial.x, pos_y + pos_initial.y, pos_initial.z);
+        transform.position = new_position;
 	}
 
     private IEnumerator Fire()

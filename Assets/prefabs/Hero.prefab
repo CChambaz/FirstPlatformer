@@ -807,7 +807,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &61524602033517170
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -844,8 +844,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04db6d6c4fb9034e926a8f24c415109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  max_health_point: 5
   health_point: 5
   life: 3
+  max_ammo: 20
   ammo: 20
   force: 10
   position_raycast_jump: {fileID: 4797401158196334}
@@ -860,6 +862,13 @@ MonoBehaviour:
   arrow_velocity: 15
   time_to_fire: 2
   last_time_fire: 0
+  text_life: {fileID: 0}
+  text_health_point: {fileID: 0}
+  text_ammo: {fileID: 0}
+  hero: {fileID: 1725863503066628}
+  hero_renderer: {fileID: 212171140518511110}
+  hero_touched: {fileID: 212358853867719650, guid: 3488c8d5447d2d64688e01d0f6f68d96,
+    type: 2}
 --- !u!212 &212055767724106726
 SpriteRenderer:
   m_ObjectHideFlags: 1

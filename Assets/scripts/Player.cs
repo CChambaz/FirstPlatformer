@@ -4,14 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(Rigidbody2D))]     // Demande cet élément, si il n'existe pas, le crée et empêche sa supression
+[RequireComponent(typeof(BoxCollider2D))]
+
 public class Player : MonoBehaviour
 {
     [Header("Player stats")]
-    [SerializeField] public int max_health_point = 5;
+    [SerializeField] [Range(0.0f,25.0f)] public int max_health_point = 5;
     [SerializeField] public int health_point = 5;
     [SerializeField] public int life = 3;
     [SerializeField] public int max_ammo = 20;
-    [SerializeField] public int ammo = 20;
+    [SerializeField] public int ammo = 20;    
 
     [Header("Physics")]
     [SerializeField] private float force = 10;
@@ -34,6 +37,13 @@ public class Player : MonoBehaviour
     [SerializeField] private Text text_health_point;
     [SerializeField] private Text text_ammo;
 
+    [Header("Object Info")]
+    [SerializeField] private GameObject hero;
+    [SerializeField] private SpriteRenderer hero_renderer;
+    [SerializeField] private SpriteRenderer hero_touched;
+    [SerializeField] [TextArea] public string message;
+    [SerializeField] private Color test;
+
     private const string TEXT_LIFE = "Life : ";
     private const string TEXT_HEALTH_POINT = "Health : ";
     private const string TEXT_AMMO = "Ammo : ";
@@ -44,8 +54,10 @@ public class Player : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        hero_renderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         spawn_transform = GameObject.Find("Spawn").transform;
+        // DontDestroyOnLoad(gameObject);
     }
 	
 	// Update is called once per frame
@@ -56,6 +68,7 @@ public class Player : MonoBehaviour
         text_ammo.text = TEXT_AMMO + ammo.ToString();
 
         float horizontal_input = Input.GetAxis("Horizontal");
+        hero_renderer.flipX = horizontal_input < 0;
         Vector2 forceDirection = new Vector2(horizontal_input, 0);
         forceDirection *= force;
         rigid.AddForce(forceDirection);
@@ -70,6 +83,8 @@ public class Player : MonoBehaviour
         {
             Fire();
         }
+
+        hero_renderer.flipX = horizontal_input < 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
