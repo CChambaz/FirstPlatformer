@@ -937,7 +937,7 @@ GameObject:
   - component: {fileID: 1191744197}
   m_Layer: 0
   m_Name: beer
-  m_TagString: Win
+  m_TagString: NextLevel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

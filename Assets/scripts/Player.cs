@@ -49,14 +49,19 @@ public class Player : MonoBehaviour
 
     private Transform spawn_transform;
     private Rigidbody2D rigid;
+    private Control control;
 
     // Use this for initialization
     void Start ()
     {
+        if (gameObject == null)
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+
         hero_renderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
-        spawn_transform = GameObject.Find("Spawn").transform;
-        // DontDestroyOnLoad(gameObject);
+        spawn_transform = GameObject.Find("Spawn").transform;        
     }
 	
 	// Update is called once per frame
@@ -96,6 +101,11 @@ public class Player : MonoBehaviour
         if (collision.tag == "Win")
         {
             SceneManager.LoadScene("WinMenu");
+        }
+
+        if (collision.tag == "NextLevel")
+        {
+            control.LoadScene(2);//SceneManager.GetActiveScene().buildIndex + 1);
         }
 
         if (collision.tag == "BAmmo")
