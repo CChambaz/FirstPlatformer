@@ -952,7 +952,7 @@ Halo:
   m_Color:
     serializedVersion: 2
     rgba: 4278822057
-  m_Size: 3
+  m_Size: 1.5
 --- !u!61 &1191744198
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -9,21 +9,10 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [Header("Player stats")]
-    [SerializeField] [Range(0.0f,25.0f)] public int max_health_point = 5;
-    [SerializeField] public int health_point = 5;
-    [SerializeField] public int life = 3;
-    [SerializeField] public int max_ammo = 20;
-    [SerializeField] public int ammo = 20;    
-
-    [Header("Physics")]
-    [SerializeField] private float force = 10;
-
     [Header("Jump")]
     [SerializeField] private Transform position_raycast_jump;
     [SerializeField] private float radius_raycast_jump;
     [SerializeField] private LayerMask layer_mask_jump;
-    [SerializeField] private float force_jump = 2;
 
     [Header("Fire")]
     [SerializeField] private GameObject arrow_prefab;
@@ -50,15 +39,12 @@ public class Player : MonoBehaviour
     private Transform spawn_transform;
     private Rigidbody2D rigid;
     private Control control;
+    private Cube cube_player;
 
     // Use this for initialization
     void Start ()
     {
-        if (gameObject == null)
-        {
-            DontDestroyOnLoad(gameObject);
-        }
-
+        cube_player = new Cube();
         hero_renderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         spawn_transform = GameObject.Find("Spawn").transform;        
@@ -67,35 +53,43 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        text_life.text = TEXT_LIFE + life.ToString();
-        text_health_point.text = TEXT_HEALTH_POINT + health_point.ToString();
-        text_ammo.text = TEXT_AMMO + ammo.ToString();
+        text_life.text = TEXT_LIFE + cube_player.life.ToString();
+        text_health_point.text = TEXT_HEALTH_POINT + cube_player.health_point.ToString();
+        text_ammo.text = TEXT_AMMO + cube_player.ammo.ToString();
 
         float horizontal_input = Input.GetAxis("Horizontal");
-        hero_renderer.flipX = horizontal_input < 0;
+
+        hero_renderer.flipX = horizontal_input < 0 && horizontal_input != 0;
+
         Vector2 forceDirection = new Vector2(horizontal_input, 0);
-        forceDirection *= force;
+        forceDirection *= cube_player.force_x;
         rigid.AddForce(forceDirection);
         bool touch_floor = Physics2D.OverlapCircle(position_raycast_jump.position, radius_raycast_jump, layer_mask_jump);
 
         if (Input.GetAxis("Jump") > 0 && touch_floor)
         {
-            rigid.AddForce(Vector2.up * force_jump, ForceMode2D.Impulse);
+            rigid.AddForce(Vector2.up * cube_player.force_y, ForceMode2D.Impulse);
         }
 
-        if (Input.GetAxis("Fire1") > 0 && ammo > 0)
+        if (Input.GetAxis("Fire1") > 0 && cube_player.ammo > 0)
         {
-            Fire();
-        }
+            if (Time.realtimeSinceStartup - last_time_fire > time_to_fire)
+            {
+                GameObject arrow = Instantiate(arrow_prefab, arrow_transform.position, arrow_transform.rotation);
 
-        hero_renderer.flipX = horizontal_input < 0;
+                cube_player.Fire(arrow_velocity, arrow, arrow_transform);
+
+                Destroy(arrow, 5);
+                last_time_fire = Time.realtimeSinceStartup;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Limit")
         {
-            PlayerDie();
+            cube_player.IsDead(transform, spawn_transform);
         }
 
         if (collision.tag == "Win")
@@ -105,26 +99,26 @@ public class Player : MonoBehaviour
 
         if (collision.tag == "NextLevel")
         {
-            control.LoadScene(2);//SceneManager.GetActiveScene().buildIndex + 1);
+            control.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
         if (collision.tag == "BAmmo")
         {
-            ammo += 5;
-            max_ammo += 5;
+            cube_player.ammo += 5;
+            cube_player.max_ammo += 5;
             Destroy(collision.gameObject);
         }
 
         if (collision.tag == "BLife")
         {
-            life += 1;
+            cube_player.life += 1;
             Destroy(collision.gameObject);
         }
 
         if (collision.tag == "BHP")
         {
-            health_point += 5;
-            max_health_point += 5;
+            cube_player.health_point += 5;
+            cube_player.max_health_point += 5;
             Destroy(collision.gameObject);
         }
     }
@@ -133,48 +127,14 @@ public class Player : MonoBehaviour
     {
         if(collision.collider.tag == "Ennemy")
         {
-            PlayerTouched();
+            cube_player.HasBeenTouched(transform, spawn_transform);
 
             Destroy(collision.gameObject);
-        }        
-    }
-
-    private void Fire()
-    {
-        if (Time.realtimeSinceStartup - last_time_fire > time_to_fire)
-        {
-            GameObject arrow = Instantiate(arrow_prefab, arrow_transform.position, arrow_transform.rotation);
-            arrow.GetComponent<Rigidbody2D>().velocity = arrow_transform.right * arrow_velocity;
-            Destroy(arrow, 5);
-            ammo -= 1;
-            last_time_fire = Time.realtimeSinceStartup;
         }
-    }
 
-    private void PlayerDie()
-    {
-        life--;
-
-        if (life <= 0)
+        if (collision.collider.tag == "NextLevel")
         {
-            SceneManager.LoadScene("DieMenu");
-        }
-        else
-        {
-            transform.position = spawn_transform.position;
-            transform.rotation = spawn_transform.rotation;
-            health_point = max_health_point;
-            ammo = max_ammo;
-        }
-    }
-
-    private void PlayerTouched()
-    {
-        health_point--;
-
-        if (health_point <= 0)
-        {
-            PlayerDie();
+            control.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }
