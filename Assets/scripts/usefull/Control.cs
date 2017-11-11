@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Control
+public class Control : MonoBehaviour
 {
     public string text_life = "Life : ";
     public string text_health_point = "Health : ";
