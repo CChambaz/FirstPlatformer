@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D))]     // Demande cet élément, si il n'existe pas, le crée et empêche sa supression
 [RequireComponent(typeof(BoxCollider2D))]
 
-public class Player : MonoBehaviour
+public class cube_controller : MonoBehaviour
 {
     [Header("Jump")]
     [SerializeField] private Transform position_raycast_jump;
@@ -32,10 +32,6 @@ public class Player : MonoBehaviour
     [SerializeField] [TextArea] public string message;
     [SerializeField] private Color test;
 
-    private const string TEXT_LIFE = "Life : ";
-    private const string TEXT_HEALTH_POINT = "Health : ";
-    private const string TEXT_AMMO = "Ammo : ";
-
     private Transform spawn_transform;
     private Rigidbody2D rigid;
     private Control control;
@@ -45,6 +41,7 @@ public class Player : MonoBehaviour
     void Start ()
     {
         cube_player = new Cube();
+        control = new Control();
         hero_renderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         spawn_transform = GameObject.Find("Spawn").transform;        
@@ -53,9 +50,13 @@ public class Player : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        text_life.text = TEXT_LIFE + cube_player.life.ToString();
-        text_health_point.text = TEXT_HEALTH_POINT + cube_player.health_point.ToString();
-        text_ammo.text = TEXT_AMMO + cube_player.ammo.ToString();
+        text_life.text = control.text_life + cube_player.life.ToString();
+        text_health_point.text = control.text_health_point + cube_player.health_point.ToString();
+        text_ammo.text = control.text_ammo + cube_player.ammo.ToString();
+
+        /*text_life.text = "Life : " + cube_player.life.ToString();
+        text_health_point.text = "HP : " + cube_player.health_point.ToString();
+        text_ammo.text = "Ammo : " + cube_player.ammo.ToString();*/
 
         float horizontal_input = Input.GetAxis("Horizontal");
 
@@ -99,7 +100,7 @@ public class Player : MonoBehaviour
 
         if (collision.tag == "NextLevel")
         {
-            control.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            control.LoadNextLevel();
         }
 
         if (collision.tag == "BAmmo")
@@ -130,11 +131,6 @@ public class Player : MonoBehaviour
             cube_player.HasBeenTouched(transform, spawn_transform);
 
             Destroy(collision.gameObject);
-        }
-
-        if (collision.collider.tag == "NextLevel")
-        {
-            control.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

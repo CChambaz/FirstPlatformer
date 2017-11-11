@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] public GameObject player;
+    [SerializeField] public GameObject object_to_follow;
 
     private Vector3 offset;
 
 	// Use this for initialization
 	void Start ()
     {
-        offset = transform.position - player.transform.position;
+        offset = transform.position - object_to_follow.transform.position;
     }
 
     void LateUpdate()
     {
-        transform.position = player.transform.position + offset;
+        transform.position = object_to_follow.transform.position + offset;
     }
 }

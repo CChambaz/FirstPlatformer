@@ -23,11 +23,11 @@ TagManager:
   - 
   - 
   - Platform
+  - background_front
+  - background_mid_front
+  - background_mid_back
+  - background_back
   - background
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 

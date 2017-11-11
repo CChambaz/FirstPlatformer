@@ -583,7 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f9c59b2ee4031e4692d6d4dd8b283d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 759384186}
+  object_to_follow: {fileID: 759384186}
 --- !u!1001 &607509729
 Prefab:
   m_ObjectHideFlags: 0
