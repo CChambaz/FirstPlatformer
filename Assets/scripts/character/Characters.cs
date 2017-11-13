@@ -11,6 +11,7 @@ public class Characters
     // Physics value
     public float force_x;
     public float force_y;
+    public float mass;
 
     // Physics reaction
     public bool is_grav_applied;
@@ -29,6 +30,10 @@ public class Characters
     // Grant immortality if no sub-class is in use
     public Characters()
     {
+        force_x = 20;
+        force_y = 5;
+        mass = 1;
+
         is_grav_applied = false;
         is_invicible = true;
 

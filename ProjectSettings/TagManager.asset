@@ -13,6 +13,7 @@ TagManager:
   - BHP
   - BLife
   - NextLevel
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX
