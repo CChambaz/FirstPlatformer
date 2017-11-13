@@ -27,7 +27,6 @@ public class cube_controller : MonoBehaviour
     [SerializeField] private Text text_ammo;
 
     [Header("Object Info")]
-    [SerializeField] private GameObject hero;
     [SerializeField] private SpriteRenderer hero_renderer;
     [SerializeField] [TextArea] public string message;
     [SerializeField] private Color test;
@@ -53,10 +52,6 @@ public class cube_controller : MonoBehaviour
         text_life.text = control.text_life + cube_player.life.ToString();
         text_health_point.text = control.text_health_point + cube_player.health_point.ToString();
         text_ammo.text = control.text_ammo + cube_player.ammo.ToString();
-
-        /*text_life.text = "Life : " + cube_player.life.ToString();
-        text_health_point.text = "HP : " + cube_player.health_point.ToString();
-        text_ammo.text = "Ammo : " + cube_player.ammo.ToString();*/
 
         float horizontal_input = Input.GetAxis("Horizontal");
 

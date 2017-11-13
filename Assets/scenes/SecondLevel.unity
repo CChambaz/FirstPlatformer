@@ -188,7 +188,8 @@ GameObject:
   m_Component:
   - component: {fileID: 197877591}
   - component: {fileID: 197877592}
-  m_Layer: 0
+  - component: {fileID: 197877593}
+  m_Layer: 8
   m_Name: grass_night_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,6 +251,31 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!61 &197877593
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 197877590}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0
 --- !u!1 &202356983
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,9 +284,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 202356984}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: platforms
-  m_TagString: Untagged
+  m_TagString: platforme
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,8 +458,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 402316560}
-  - component: {fileID: 402316559}
   - component: {fileID: 402316558}
+  - component: {fileID: 402316559}
   - component: {fileID: 402316557}
   - component: {fileID: 402316556}
   - component: {fileID: 402316561}
@@ -497,27 +523,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 402316555}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e04db6d6c4fb9034e926a8f24c415109, type: 3}
+  m_Script: {fileID: 11500000, guid: 07b27ec86ad40144bad1814bcf9b4abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   position_raycast_jump: {fileID: 1885671527}
   radius_raycast_jump: 2
   layer_mask_jump:
     serializedVersion: 2
-    m_Bits: 0
-  arrow_prefab: {fileID: 1350138753859612, guid: 6b7a6ea2a63854e44ae7c8bcd20954ef,
-    type: 2}
-  arrow_transform: {fileID: 402316560}
-  arrow_velocity: 2
-  time_to_fire: 2
-  last_time_fire: 0
+    m_Bits: 256
   text_life: {fileID: 986926338}
   text_health_point: {fileID: 1558864576}
-  text_ammo: {fileID: 1666856672}
-  hero: {fileID: 402316555}
   hero_renderer: {fileID: 402316559}
-  message: 
-  test: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &402316559
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -567,7 +583,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 402316555}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.4, y: -2.96, z: 0}
+  m_LocalPosition: {x: -5.4, y: -0.86000013, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1885671527}
@@ -613,7 +629,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 414752877}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.34, y: -2.96, z: 0}
+  m_LocalPosition: {x: -5.34, y: -0.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1236,7 +1252,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 785766846}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 1.94, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 480111044}
@@ -1268,7 +1284,8 @@ GameObject:
   m_Component:
   - component: {fileID: 787663501}
   - component: {fileID: 787663502}
-  m_Layer: 0
+  - component: {fileID: 787663503}
+  m_Layer: 8
   m_Name: grass_night_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1330,6 +1347,31 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!61 &787663503
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 787663500}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0
 --- !u!1 &794299309
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,7 +1597,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1143953676}
   - component: {fileID: 1143953677}
-  m_Layer: 0
+  - component: {fileID: 1143953678}
+  m_Layer: 8
   m_Name: grass_night_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1617,6 +1660,31 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!61 &1143953678
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1143953675}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0
 --- !u!1 &1165247908
 GameObject:
   m_ObjectHideFlags: 0
@@ -1915,7 +1983,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1575839388}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1989,7 +2057,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 986926337}
-  - {fileID: 1666856671}
   - {fileID: 1558864575}
   m_Father: {fileID: 1165247912}
   m_RootOrder: 0
@@ -2130,7 +2197,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1598757267}
   - component: {fileID: 1598757268}
-  m_Layer: 0
+  - component: {fileID: 1598757269}
+  m_Layer: 8
   m_Name: grass_night_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2192,80 +2260,31 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
---- !u!1 &1666856670
-GameObject:
+--- !u!61 &1598757269
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1666856671}
-  - component: {fileID: 1666856673}
-  - component: {fileID: 1666856672}
-  m_Layer: 5
-  m_Name: Text (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1666856671
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1666856670}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1575839388}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -42, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1666856672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1666856670}
+  m_GameObject: {fileID: 1598757266}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Density: 1
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 24
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
-    m_MaxSize: 40
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'Ammo :'
---- !u!222 &1666856673
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1666856670}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.64, y: 0.64}
+    newSize: {x: 0.64, y: 0.64}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.64, y: 0.64}
+  m_EdgeRadius: 0
 --- !u!1 &1669321946
 GameObject:
   m_ObjectHideFlags: 0

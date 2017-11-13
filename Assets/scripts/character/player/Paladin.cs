@@ -8,7 +8,7 @@ public class Paladin : Characters
     public Paladin()
     {
         force_x = 5;
-        force_y = 0;
+        force_y = 0.5f;
 
         max_life = 2;
         max_health_point = 75;
