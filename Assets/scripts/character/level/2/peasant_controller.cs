@@ -5,10 +5,7 @@ using UnityEngine.UI;
 
 public class peasant_controller : MonoBehaviour
 {
-    [Header("Object Info")]
-    [SerializeField] private SpriteRenderer peasant_renderer;
-    [SerializeField] private Text text_life;
-
+    private SpriteRenderer peasant_renderer;
     private float time_to_attack = 2;
     private float time_touched = 2;
     private Vector2 force_touched = new Vector2(250, 0);
@@ -35,11 +32,7 @@ public class peasant_controller : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        text_life.text = control.text_health_point + peasant.health_point.ToString();
-
         anim_controller.SetBool("is_attacking", false);
-        anim_controller.SetBool("is_attacking_up", false);
-        anim_controller.SetBool("is_attacking_down", false);
 
         Vector2 move_vector;
 
@@ -65,18 +58,7 @@ public class peasant_controller : MonoBehaviour
         {
             move_vector = new Vector2(0, 0);
 
-            /*if (player_transform.position.y > 2 * transform.position.y)
-            {
-                anim_controller.SetBool("is_attacking_up", true);
-            }
-            else if(player_transform.position.y < 2 * transform.position.y)
-            {
-                anim_controller.SetBool("is_attacking_down", true);
-            }
-            else
-            {*/
-                anim_controller.SetBool("is_attacking", true);
-            //}
+            anim_controller.SetBool("is_attacking", true);
         }
 
         anim_controller.SetFloat("speed_x", Mathf.Abs(move_vector.x));
@@ -85,7 +67,7 @@ public class peasant_controller : MonoBehaviour
 
         if(peasant.life <= 0)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
@@ -94,23 +76,6 @@ public class peasant_controller : MonoBehaviour
         if (collision.collider.tag == "PlayerAttack")
         {
             peasant.HasBeenTouched();
-
-            StartCoroutine(Touched());
         }
-    }
-
-    private IEnumerator Touched()
-    {
-        float actual_time = Time.realtimeSinceStartup;
-
-        while (Time.realtimeSinceStartup - actual_time < time_touched)
-        {
-            rigid.AddForce(force_touched);
-            anim_controller.SetBool("is_touched", true);
-
-            yield return new WaitForSeconds(.1f);
-        }
-
-        anim_controller.SetBool("is_touched", false);
     }
 }

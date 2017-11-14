@@ -50,7 +50,7 @@ public class paladin_controller : MonoBehaviour
         float horizontal_input = Input.GetAxis("Horizontal");
 
         anim_controller.SetFloat("speed_x", Mathf.Abs(horizontal_input));
-        anim_controller.SetBool("is_touched", false);
+        
         anim_controller.SetBool("is_attacking", false);
         gameObject.tag = "Player";
 
@@ -58,22 +58,32 @@ public class paladin_controller : MonoBehaviour
 
         if (Input.GetKey(KeyCode.A) && !hero_renderer.flipX)
         {
+            rigid.velocity = rigid.velocity.normalized;
             hero_renderer.flipX = true;
         }
 
         if (Input.GetKey(KeyCode.D) && hero_renderer.flipX)
         {
+            rigid.velocity = rigid.velocity.normalized;
             hero_renderer.flipX = false;
         }
 
         Vector2 forceDirection = new Vector2(horizontal_input, 0);
         forceDirection *= paladin_player.force_x;
-        if (Mathf.Abs(rigid.velocity.x) <= paladin_player.force_x)
+
+        rigid.AddForce(forceDirection);
+
+        if (Mathf.Abs(rigid.velocity.magnitude) > paladin_player.max_speed)
         {
-            rigid.AddForce(forceDirection);                     
+            rigid.velocity = rigid.velocity.normalized * paladin_player.max_speed;
         }
         
         bool touch_floor = Physics2D.OverlapCircle(position_raycast_jump.position, radius_raycast_jump, layer_mask_jump);
+
+        if (touch_floor)
+        {
+            anim_controller.SetBool("is_touched", false);
+        }
 
         if (Input.GetAxis("Jump") > 0 && touch_floor)
         {
@@ -83,9 +93,9 @@ public class paladin_controller : MonoBehaviour
             }            
             
             anim_controller.SetBool("is_touched", true);
-        }
+        }        
 
-        if (Input.GetAxis("Fire1") > 0)
+        if (Input.GetAxis("Fire1") > 0 && !anim_controller.GetBool("is_attacking"))
         {
             gameObject.tag = "PlayerAttack";
 
@@ -97,20 +107,20 @@ public class paladin_controller : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        float actual_time = Time.realtimeSinceStartup;
-
         if (collision.collider.tag == "Ennemy")
         {
             paladin_player.HasBeenTouched(transform, spawn_transform);
 
             anim_controller.SetBool("is_touched", true);
+        }
 
-            /*while (Time.realtimeSinceStartup - actual_time < time_touched)
-            {
-                anim_controller.SetBool("is_touched", true);
-            }
+        if (collision.collider.tag == "EnnemyAmmo")
+        {
+            paladin_player.HasBeenTouched(transform, spawn_transform);
 
-            anim_controller.SetBool("is_touched", false);*/
+            anim_controller.SetBool("is_touched", true);
+
+            Destroy(collision.collider.gameObject);
         }
     }
 }

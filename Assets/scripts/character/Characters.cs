@@ -12,6 +12,7 @@ public class Characters
     public float force_x;
     public float force_y;
     public float mass;
+    public float max_speed;
 
     // Physics reaction
     public bool is_grav_applied;
@@ -33,6 +34,7 @@ public class Characters
         force_x = 20;
         force_y = 5;
         mass = 1;
+        max_speed = -1;
 
         is_grav_applied = false;
         is_invicible = true;
@@ -44,6 +46,11 @@ public class Characters
         life = max_life;
         health_point = max_health_point;
         ammo = max_ammo;
+    }
+
+    public void Move(Rigidbody2D rigid, Vector2 force_vector)
+    {
+        rigid.velocity = force_vector;
     }
 
     public void HasBeenTouched()
