@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class paladin_controller : MonoBehaviour
 {
@@ -102,6 +103,14 @@ public class paladin_controller : MonoBehaviour
             hero_collider.size = new Vector2(collider_size.x * 2, collider_size.y);
 
             anim_controller.SetBool("is_attacking", true);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Win")
+        {
+            SceneManager.LoadScene("WinMenu");
         }
     }
 

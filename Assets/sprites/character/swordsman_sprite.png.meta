@@ -1,0 +1,277 @@
+fileFormatVersion: 2
+guid: 7e919653689a6ee468187d2ec6f0d07d
+timeCreated: 1510754884
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: swordsman_idle
+    21300002: swordsman_touched
+    21300004: swordsman_attack_1
+    21300006: swordsman_attack_2
+    21300008: swordsman_attack_3
+    21300010: swordsman_attack_4
+    21300012: swordsman_attack_5
+    21300014: swordsman_walk_1
+    21300016: swordsman_walk_2
+    21300018: swordsman_walk_3
+    21300020: swordsman_walk_4
+    21300022: swordsman_walk_5
+    21300024: swordsman_walk_6
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: swordsman_idle
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 161
+        width: 66
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_touched
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 161
+        width: 103
+        height: 135
+      alignment: 9
+      pivot: {x: 0.549982, y: 0.49999988}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_attack_1
+      rect:
+        serializedVersion: 2
+        x: 308
+        y: 161
+        width: 75
+        height: 129
+      alignment: 9
+      pivot: {x: 0.2788204, y: 0.50443417}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_attack_2
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 161
+        width: 102
+        height: 135
+      alignment: 9
+      pivot: {x: 0.5504719, y: 0.49999988}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_attack_3
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 161
+        width: 72
+        height: 169
+      alignment: 9
+      pivot: {x: 0.30138314, y: 0.38491976}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_attack_4
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 161
+        width: 101
+        height: 129
+      alignment: 9
+      pivot: {x: 0.21115988, y: 0.51773685}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_attack_5
+      rect:
+        serializedVersion: 2
+        x: 904
+        y: 161
+        width: 64
+        height: 128
+      alignment: 9
+      pivot: {x: 0.33018303, y: 0.5134065}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_walk_1
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 10
+        width: 66
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_walk_2
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 10
+        width: 66
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_walk_3
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 10
+        width: 66
+        height: 127
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_walk_4
+      rect:
+        serializedVersion: 2
+        x: 251
+        y: 10
+        width: 66
+        height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_walk_5
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 10
+        width: 69
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: swordsman_walk_6
+      rect:
+        serializedVersion: 2
+        x: 409
+        y: 12
+        width: 66
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

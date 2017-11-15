@@ -48,8 +48,33 @@ public class Characters
         ammo = max_ammo;
     }
 
-    public void Move(Rigidbody2D rigid, Vector2 force_vector)
+    public void Move(GameObject game_object, Rigidbody2D rigid, GameObject move_to, float range = 0, bool is_left_ok = true, bool is_right_ok = true)
     {
+        Vector2 force_vector;
+
+        if (move_to.transform.position.x - move_to.GetComponent<SpriteRenderer>().bounds.size.x > game_object.transform.position.x + range && is_right_ok)
+        {
+            if (game_object.GetComponent<SpriteRenderer>().flipX)
+            {
+                game_object.GetComponent<SpriteRenderer>().flipX = false;
+            }
+
+            force_vector = new Vector2(1, 0);
+        }
+        else if (move_to.transform.position.x + move_to.GetComponent<SpriteRenderer>().bounds.size.x < game_object.transform.position.x - range && is_left_ok)
+        {
+            if (!game_object.GetComponent<SpriteRenderer>().flipX)
+            {
+                game_object.GetComponent<SpriteRenderer>().flipX = true;
+            }
+
+            force_vector = new Vector2(-1, 0);
+        }
+        else
+        {
+            force_vector = new Vector2(0, 0);
+        }
+
         rigid.velocity = force_vector;
     }
 
