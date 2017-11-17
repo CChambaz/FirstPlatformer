@@ -78,9 +78,9 @@ public class Characters
         rigid.velocity = force_vector;
     }
 
-    public void HasBeenTouched()
+    public void HasBeenTouched(int damage)
     {
-        health_point--;
+        health_point -= damage;
 
         if(health_point == 0)
         {

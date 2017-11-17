@@ -17,16 +17,13 @@ public class paladin_controller : MonoBehaviour
 
     [Header("Object Info")]
     [SerializeField] private SpriteRenderer hero_renderer;
-    [SerializeField] private BoxCollider2D hero_collider;
-
-    private float time_touched = 2;
+    [SerializeField] private CircleCollider2D attack_collider;
 
     private Transform spawn_transform;
     private Rigidbody2D rigid;
     private Control control;
     private Paladin paladin_player;
     private Animator anim_controller;
-    private Vector3 collider_size;
 
 	// Use this for initialization
 	void Start ()
@@ -34,12 +31,10 @@ public class paladin_controller : MonoBehaviour
         paladin_player = new Paladin();
         control = new Control();
         hero_renderer = GetComponent<SpriteRenderer>();
-        hero_collider = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         anim_controller = GetComponent<Animator>();
         spawn_transform = GameObject.Find("Spawn").transform;
         rigid.mass = paladin_player.mass;
-        collider_size = hero_collider.size;
     }
 	
 	// Update is called once per frame
@@ -54,8 +49,6 @@ public class paladin_controller : MonoBehaviour
         
         anim_controller.SetBool("is_attacking", false);
         gameObject.tag = "Player";
-
-        hero_collider.size = collider_size;
 
         if (Input.GetKey(KeyCode.A) && !hero_renderer.flipX)
         {
@@ -83,27 +76,41 @@ public class paladin_controller : MonoBehaviour
 
         if (touch_floor)
         {
-            anim_controller.SetBool("is_touched", false);
+            anim_controller.SetBool("is_jumping", false);
         }
 
-        if (Input.GetAxis("Jump") > 0 && touch_floor)
+        if (Input.GetButton("Jump") && touch_floor)
         {
             if (rigid.velocity.y <= paladin_player.force_y)
             {
                 rigid.AddForce(Vector2.up * paladin_player.force_y, ForceMode2D.Impulse);
             }            
             
-            anim_controller.SetBool("is_touched", true);
+            anim_controller.SetBool("is_jumping", true);
         }        
+
+        if (!touch_floor)
+        {
+            anim_controller.SetBool("is_jumping", true);
+        }
 
         if (Input.GetAxis("Fire1") > 0 && !anim_controller.GetBool("is_attacking"))
         {
-            gameObject.tag = "PlayerAttack";
-
-            hero_collider.size = new Vector2(collider_size.x * 2, collider_size.y);
-
-            anim_controller.SetBool("is_attacking", true);
+            attack_collider.enabled = true;
+            anim_controller.SetBool("is_attacking", true);            
         }
+    }
+
+    private void Attack()
+    {
+        anim_controller.SetBool("is_attacking", false);
+
+        attack_collider.enabled = false;
+    }
+
+    private void Touched()
+    {
+        anim_controller.SetBool("is_touched", false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -111,6 +118,13 @@ public class paladin_controller : MonoBehaviour
         if (collision.tag == "Win")
         {
             SceneManager.LoadScene("WinMenu");
+        }
+
+        if (collision.tag == "EnnemyAttack")
+        {
+            paladin_player.HasBeenTouched(transform, spawn_transform);
+
+            anim_controller.SetBool("is_touched", true);
         }
     }
 

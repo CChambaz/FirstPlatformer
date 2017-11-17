@@ -7,8 +7,8 @@ public class Paladin : Characters
 {
     public Paladin()
     {
-        force_x = 500;
-        force_y = 30;
+        force_x = 750;
+        force_y = 1000;
         mass = 80;
         max_speed = 10;
 

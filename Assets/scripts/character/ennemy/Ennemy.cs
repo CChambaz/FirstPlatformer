@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Ennemy : MonoBehaviour
 {
-    [SerializeField] private GameObject ennemy;
     [SerializeField] private SpriteRenderer ennemy_renderer;
     [SerializeField] private Transform ennemy_transform;
     [SerializeField] private Transform[] gun_transform_list;
@@ -70,7 +69,7 @@ public class Ennemy : MonoBehaviour
 
     private void EnnemyDie()
     {
-        Destroy(ennemy);
+        Destroy(gameObject);
     }
 
     private void EnnemyTouched()

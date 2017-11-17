@@ -9,6 +9,7 @@ public class archer_controller : MonoBehaviour
     [SerializeField] private Transform right_check;
     [SerializeField] private LayerMask layer_check;
     [SerializeField] private float radius_check = 0.2f;
+    [SerializeField] private BoxCollider2D stab_collider;
 
     [Header("Fire")]
     [SerializeField] private GameObject arrow_prefab;
@@ -21,11 +22,13 @@ public class archer_controller : MonoBehaviour
     private Rigidbody2D rigid;
     private Control control;
     private Archer archer;
-    private SpriteRenderer archer_renderer;
     private Animator anim_controller;
     private Transform player_transform;
     private float view_sight = 20;
     private float shoot_range = 15;
+    private float stab_range = 2;
+    private float last_stab = 0;
+    private float time_stab = 2;
     private Vector3 rotate_around = new Vector3(0, 180, 0);
     private bool rotate_used = false;
     private Vector3 archer_bounds;
@@ -36,7 +39,6 @@ public class archer_controller : MonoBehaviour
     {
         archer = new Archer();
         control = new Control();
-        archer_renderer = GetComponent<SpriteRenderer>();
         rigid = GetComponent<Rigidbody2D>();
         anim_controller = GetComponent<Animator>();
         archer_bounds = GetComponent<Renderer>().bounds.size;
@@ -49,23 +51,21 @@ public class archer_controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 move_vector = new Vector2(0, 0);
-
-        Rotate();
-
-        bool is_left_ok = Physics2D.OverlapCircle(left_check.position, radius_check, layer_check);
-        bool is_right_ok = Physics2D.OverlapCircle(right_check.position, radius_check, layer_check);
-
-        archer.Move(gameObject, rigid, player, view_sight, is_left_ok, is_right_ok);
-
-        WillShoot();
-
-        anim_controller.SetFloat("speed_x", Mathf.Abs(rigid.velocity.x));        
-
-        if (archer.life <= 0)
+        if(!anim_controller.GetBool("is_touched"))
         {
-            Destroy(gameObject);
-        }
+            Rotate();
+
+            bool is_left_ok = Physics2D.OverlapCircle(left_check.position, radius_check, layer_check);
+            bool is_right_ok = Physics2D.OverlapCircle(right_check.position, radius_check, layer_check);
+
+            archer.Move(gameObject, rigid, player, view_sight, is_left_ok, is_right_ok);
+
+            WillShoot();
+
+            WillStab();
+
+            anim_controller.SetFloat("speed_x", Mathf.Abs(rigid.velocity.x));
+        } 
     }
 
     private void Shoot()
@@ -103,9 +103,10 @@ public class archer_controller : MonoBehaviour
 
     private void WillShoot()
     {
-        if (Time.realtimeSinceStartup - last_time_fire > time_to_fire)
+        if (Time.realtimeSinceStartup - last_time_fire > time_to_fire && !anim_controller.GetBool("is_shooting"))
         {
-            if (Mathf.Abs(transform.position.x - player_transform.position.x) <= shoot_range || Mathf.Abs(player_transform.position.x - transform.position.x) <= shoot_range)
+            if ((Mathf.Abs(transform.position.x - player_transform.position.x) <= shoot_range || Mathf.Abs(player_transform.position.x - transform.position.x) <= shoot_range)
+                && (Mathf.Abs(transform.position.x - player_transform.position.x) > stab_range || Mathf.Abs(player_transform.position.x - transform.position.x) > stab_range))
             {
                 anim_controller.SetBool("is_shooting", true);
             }
@@ -113,11 +114,45 @@ public class archer_controller : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void WillStab()
     {
-        if (collision.collider.tag == "PlayerAttack")
+        if (!anim_controller.GetBool("is_stabbing"))
         {
-            archer.HasBeenTouched();
+            if (Mathf.Abs(transform.position.x - player_transform.position.x + player_bounds.x) <= stab_range
+                || Mathf.Abs(player_transform.position.x - player_bounds.x - transform.position.x) <= stab_range)
+            {
+                anim_controller.SetBool("is_stabbing", true);
+                stab_collider.enabled = true;
+            }
+        }
+    }
+
+    private void Stab()
+    {
+        stab_collider.enabled = false;
+        anim_controller.SetBool("is_stabbing", false);
+    }
+
+    private void Touched()
+    {
+        if(archer.health_point > 0)
+        {
+            anim_controller.SetBool("is_touched", false);
+        }
+        else
+        {
+            Destroy(gameObject, 1);
+        }
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "PlayerAttack" && !anim_controller.GetBool("is_touched"))
+        {
+            archer.HasBeenTouched(1);
+
+            anim_controller.SetBool("is_touched", true);
         }
     }
 }
