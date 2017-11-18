@@ -20,6 +20,7 @@ public class archer_controller : MonoBehaviour
 
     private GameObject player;
     private Rigidbody2D rigid;
+    private Physic physic;
     private Control control;
     private Archer archer;
     private Animator anim_controller;
@@ -39,6 +40,7 @@ public class archer_controller : MonoBehaviour
     {
         archer = new Archer();
         control = new Control();
+        physic = new Physic();
         rigid = GetComponent<Rigidbody2D>();
         anim_controller = GetComponent<Animator>();
         archer_bounds = GetComponent<Renderer>().bounds.size;
@@ -77,12 +79,66 @@ public class archer_controller : MonoBehaviour
             rotate_used = true;
         }
 
+        /*float speed_y_origin = 50;
+        float speed_x = 50;*/
+
         GameObject arrow = Instantiate(arrow_prefab, arrow_transform.position, arrow_transform.rotation);
+        // (float speed_y_origin, float speed_x, float mass, Transform origin, Transform target, GameObject projectile)
+        arrow.SendMessage("GetTarget", player_transform);
+        //
+        // Get initial and constant value
+        /*float acceleration = physic.Ballistic_GetAcceleration(speed_y_origin, speed_x, 0.1f);
+        float trajectory_time = physic.Ballistic_GetTime(speed_x, arrow_transform, player_transform);
+        float angle = physic.Ballistic_GetAngle(speed_x, speed_y_origin);
 
-        arrow.GetComponent<Rigidbody2D>().AddForce(new Vector2(arrow_velocity, 0), ForceMode2D.Impulse);
+        // Keep the base rotationof the origin
+        //Quaternion origin_base_rotation = origin.rotation;
 
-        Destroy(arrow, 5);
+        // Add the angle needed for the shoot to the origin
+        //origin.Rotate(origin.rotation.x, origin.rotation.y + angle, origin.rotation.z);
+        arrow.transform.Rotate(0, arrow.transform.rotation.y - angle, 0);
+        // Creat the object
+        //GameObject projectile = Instantiate(projectile_data, origin.position, origin.rotation);
+
+        // Get the time when the object is shoot
+        float start_time = Time.time;
+
+        // Add the constant force of the X axis to the projectile
+        arrow.GetComponent<ConstantForce2D>().force = new Vector2(speed_x, 0);
+
+        // Add the variable force of the Y axis to the projectile and give him the impulse
+        arrow.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, speed_y_origin), ForceMode2D.Impulse);
+
+        // Needed to manage the trajectory
+        float angle_to_apply;
+        float actual_time;
+
+        //origin.rotation = origin_base_rotation;
+
+        // Manage the trajectory of the object until it reachs the target
+        while (Time.realtimeSinceStartup - start_time < trajectory_time)
+        {
+            // Get the actual time of the trajectory
+            actual_time = Time.realtimeSinceStartup - start_time;
+
+            // Get the new angle of the projectile
+            angle = physic.Ballistic_GetAngle(speed_x, physic.Ballistic_GetSpeedY(acceleration, actual_time, speed_y_origin));
+
+            // Define how many degrees we need to substract from the actual angle
+            angle_to_apply = arrow.transform.rotation.y - angle;
+
+            // Apply the new angle to the object
+            arrow.transform.Rotate(new Vector3(arrow.transform.rotation.x, arrow.transform.rotation.y - angle_to_apply));
+
+            // Update the 
+            // projectile.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(0, Ballistic_GetSpeedY(acceleration, actual_time, speed_y_origin)));
+        }
+
+        Destroy(arrow);*/
+        //
         anim_controller.SetBool("is_shooting", false);
+
+        //physic.ApplyBallistic(50, 50, 1, arrow_transform, player_transform, arrow);    
     }
 
     private void Rotate()

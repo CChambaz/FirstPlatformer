@@ -22,6 +22,8 @@ GameObject:
   - component: {fileID: 212407188885249680}
   - component: {fileID: 61455407113331696}
   - component: {fileID: 50870477636769724}
+  - component: {fileID: 247518440577118342}
+  - component: {fileID: 114296213598219672}
   m_Layer: 0
   m_Name: arrow 1
   m_TagString: EnnemyAmmo
@@ -36,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1397584488515602}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -23.693857, y: 2.6706753, z: 0}
+  m_LocalPosition: {x: -14.682496, y: 1.5268713, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -87,6 +89,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.66, y: 0.06}
   m_EdgeRadius: 0
+--- !u!114 &114296213598219672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397584488515602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c810129f86ed71d4b9d0e581f7fbf2b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212407188885249680
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -129,3 +142,13 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!247 &247518440577118342
+ConstantForce2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1397584488515602}
+  m_Enabled: 1
+  m_Force: {x: 10, y: 0}
+  m_RelativeForce: {x: 0, y: -10}
+  m_Torque: 0
