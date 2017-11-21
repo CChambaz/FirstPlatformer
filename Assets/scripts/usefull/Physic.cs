@@ -4,65 +4,60 @@ using UnityEngine;
 
 public class Physic : MonoBehaviour
 {
-    private float acceleration;
-    private float trajectory_time;
+    [Header("Projectile info")]
+    [SerializeField] private Transform origin;
+    [SerializeField] private Transform final;
+    [SerializeField] private Rigidbody2D rigid;
+    //[SerializeField] private ConstantForce2D force_applied;
+
+    [Header("Force applied")]
+    [SerializeField] private float acceleration = -9.81f;
+    [SerializeField] private float speed_y_origin;
+    [SerializeField] private float speed_x = 30;
+
     private float angle;
     private float start_time;
     private float angle_to_apply;
     private float actual_time;
-    private float speed_y_origin;
-    private float speed_x;
-    private float mass;
-    private Transform origin;
-    private Transform final;
-    private ConstantForce2D force_applied;
+    private bool target_on_right;    
 
     public void Start()
     {
+        rigid = gameObject.GetComponent<Rigidbody2D>();
         origin = gameObject.GetComponent<Transform>();
-        force_applied = gameObject.GetComponent<ConstantForce2D>();
+        final = GameObject.FindGameObjectWithTag("Player").transform;
+        target_on_right = final.position.x > origin.position.x;
 
-        speed_x = force_applied.force.x;
-        speed_y_origin = force_applied.relativeForce.y;
+        angle = GetBaseAngle(origin, final);
 
-        acceleration = Ballistic_GetAcceleration(speed_y_origin, speed_x, mass);
-        angle = Ballistic_GetAngle(speed_x, speed_y_origin);
-        trajectory_time = Ballistic_GetTime(speed_x, origin, final);
+        if (!target_on_right)
+        {
+            speed_x = -speed_x;
+            angle = -angle;
+        }
 
-        gameObject.transform.Rotate(0, gameObject.transform.rotation.y - angle, 0);
+        speed_y_origin = GetBaseSpeedY(acceleration, speed_x, origin, final);
+        rigid.velocity = new Vector2(speed_x, speed_y_origin);
 
         // Get the time when the object is shoot
         start_time = Time.time;
 
-        // Add the variable force of the Y axis to the projectile and give him the impulse
-        gameObject.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, speed_y_origin), ForceMode2D.Impulse);
+        Physics2D.IgnoreCollision(gameObject.GetComponent<Collider2D>(), GameObject.FindGameObjectWithTag("Ennemy").GetComponent<Collider2D>());
     }
+
+    // Note
+    // Appliquer une diminution de la force relative y sur le temps
 
     public void Update()
     {
         // Get the actual time of the trajectory
         actual_time = Time.realtimeSinceStartup - start_time;
-
-        if (start_time != 0 && Time.realtimeSinceStartup - actual_time < trajectory_time)
-        {
-            // Get the new angle of the projectile
-            angle = Ballistic_GetAngle(speed_x, Ballistic_GetSpeedY(acceleration, actual_time, speed_y_origin));
-
-            // Define how many degrees we need to substract from the actual angle
-            angle_to_apply = gameObject.transform.rotation.y - angle;
-
-            // Apply the new angle to the object
-            gameObject.transform.Rotate(new Vector3(gameObject.transform.rotation.x, gameObject.transform.rotation.y - angle_to_apply));
-
-            // Update the 
-            gameObject.GetComponent<ConstantForce2D>().relativeForce = new Vector2(0, Ballistic_GetSpeedY(acceleration, actual_time, speed_y_origin));
-        }  
     }
 
-
-    public void GetTarget(Transform target)
+    public void FixedUpdate()
     {
-        final = target;        
+        // Apply the new y force
+        rigid.velocity = new Vector2(rigid.velocity.x, GetSpeedY(acceleration, actual_time, speed_y_origin, origin, final));
     }
 
     public bool PerpendicularVector2(Vector2 vector_1, Vector2 vector_2)
@@ -86,30 +81,49 @@ public class Physic : MonoBehaviour
         return (target.position.x - origin.position.x) / time;
     }
 
-    public float Ballistic_GetTime(float speed_x, Transform origin, Transform target)
+    public float GetTime(float speed_x, Transform origin, Transform target)
     {
         // Xf = Vx * t + Xo
         // t = (Xf - Xo) / Vx
         return (target.position.x - origin.position.x) / speed_x;
     }
 
-    public float Ballistic_GetAngle(float speed_x, float speed_y_origin)
+    public float GetAngle(float speed_x, float speed_y)
     {
         // alpha = arc-tan(Vy / Vx)
-        return Mathf.Atan(speed_y_origin / speed_x);
+        float angle_rad = Mathf.Atan(speed_y / speed_x);
+
+        return angle_rad * (180 / Mathf.PI);
     }
 
-    public float Ballistic_GetAcceleration(float speed_y_origin, float speed_x, float mass)
+    public float GetAcceleration(float speed_y_origin, float speed_x, float mass)
     {
         // Sum(F) = Vx + Vy = m * a 
         // a = (Vx + Vy) / m
         return (speed_y_origin + speed_x) / mass;
     }
 
-    public float Ballistic_GetSpeedY(float acceleration, float time, float speed_y_origin)
+    public float GetSpeedY(float acceleration, float time, float speed_y_origin, Transform origin, Transform target)
     {
         // Vy = a * t + Voy
         return acceleration * time + speed_y_origin;
+        // Vy = a * ((X - Xo) / Vx) + Voy
+        //return acceleration * ((transform.position.x - origin.position.y) / speed_x) + speed_y_origin;
+    }
+
+    public float GetBaseAngle(Transform origin, Transform target)
+    {
+        // AB(Bx - Ax, By - Ay)
+        Vector2 origin_to_target = new Vector2(target.position.x - origin.position.x, target.position.y - origin.position.y);        
+
+        // alpha_deg = alpha_rad * (180 / PI)
+        return Mathf.Asin(origin_to_target.y / origin_to_target.x) * (180 / Mathf.PI);
+    }
+
+    public float GetBaseSpeedY(float acceleration, float speed_x, Transform origin, Transform target)
+    {
+
+        return Mathf.Abs(acceleration * (((target.position.x) - origin.position.x) / speed_x));
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -123,79 +137,6 @@ public class Physic : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, force_applied.transform.position);
+        Gizmos.DrawLine(new Vector3(origin.position.x, origin.position.y, origin.position.z), new Vector3(final.position.x, final.position.y, final.position.z));
     }
-
-    /*
-    private void Shoot()
-    {
-        if (!rotate_used)
-        {
-            arrow_transform.Rotate(rotate_around);
-            arrow_velocity = -arrow_velocity;
-            rotate_used = true;
-        }
-
-        GameObject arrow = Instantiate(arrow_prefab, arrow_transform.position, arrow_transform.rotation);
-
-        arrow.GetComponent<Rigidbody2D>().AddForce(new Vector2(arrow_velocity, 0), ForceMode2D.Impulse);
-
-        Destroy(arrow, 5);
-        anim_controller.SetBool("is_shooting", false);
-    }
-     */
-
-    // Backup
-    /*public void ApplyBallistic(float speed_y_origin, float speed_x, float mass, Transform origin, Transform target, GameObject projectile)
-    {
-        // Get initial and constant value
-        float acceleration = Ballistic_GetAcceleration(speed_y_origin, speed_x, mass);
-        float trajectory_time = Ballistic_GetTime(speed_x, origin, target);
-        float angle = Ballistic_GetAngle(speed_x, speed_y_origin);
-
-        // Keep the base rotationof the origin
-        //Quaternion origin_base_rotation = origin.rotation;
-
-        // Add the angle needed for the shoot to the origin
-        //origin.Rotate(origin.rotation.x, origin.rotation.y + angle, origin.rotation.z);
-        projectile.transform.Rotate(0, projectile.transform.rotation.y - angle, 0);
-        // Creat the object
-        //GameObject projectile = Instantiate(projectile_data, origin.position, origin.rotation);
-
-        // Get the time when the object is shoot
-        float start_time = Time.time;
-
-        // Add the constant force of the X axis to the projectile
-        projectile.AddComponent<ConstantForce2D>().force = new Vector2(speed_x, 0);
-
-        // Add the variable force of the Y axis to the projectile and give him the impulse
-        projectile.GetComponent<Rigidbody2D>().AddForce(new Vector2(0, speed_y_origin), ForceMode2D.Impulse);
-
-        // Needed to manage the trajectory
-        float angle_to_apply;
-        float actual_time;
-
-        //origin.rotation = origin_base_rotation;
-
-        // Manage the trajectory of the object until it reachs the target
-        while (Time.realtimeSinceStartup - start_time > trajectory_time)
-        {
-            // Get the actual time of the trajectory
-            actual_time = Time.realtimeSinceStartup - start_time;
-
-            // Get the new angle of the projectile
-            angle = Ballistic_GetAngle(speed_x, Ballistic_GetSpeedY(acceleration, actual_time, speed_y_origin));
-
-            // Define how many degrees we need to substract from the actual angle
-            angle_to_apply = projectile.transform.rotation.y - angle;
-
-            // Apply the new angle to the object
-            projectile.transform.Rotate(new Vector3(projectile.transform.rotation.x, projectile.transform.rotation.y - angle_to_apply));
-
-            // Update the 
-            // projectile.GetComponent<Rigidbody2D>().AddRelativeForce(new Vector2(0, Ballistic_GetSpeedY(acceleration, actual_time, speed_y_origin)));
-        }
-
-        //Destroy(projectile);
-    }*/
 }
